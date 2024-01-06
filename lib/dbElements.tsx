@@ -44,34 +44,12 @@ function Limit({ value }: LimitProps): string {
   return ` LIMIT ${value}`;
 }
 
-// Custom JSX factory
 export function createElement(
   type: Function,
   props: any,
   ...children: any[]
 ): string {
-  if (typeof type === "function" && type.prototype.isJSXRenderer) {
-    // Call the render method for JSX elements created by the library
-    return type(props, children);
-  }
-
-  // Default behavior for non-library JSX elements
-  const childrenString = children.join("");
-  return `<${type}${props
-      ? " " +
-      Object()
-        .entries(props)
-        .map(([key, value]) => `${key}="${value}"`)
-        .join(" ")
-      : ""
-    }>${childrenString}</${type}>`;
+  return type(props, children);
 }
-
-createElement.prototype.isJSXRenderer = true;
-Select.prototype.isJSXRenderer = true;
-Where.prototype.isJSXRenderer = true;
-Limit.prototype.isJSXRenderer = true;
-Sort.prototype.isJSXRenderer = true;
-Clause.prototype.isJSXRenderer = true;
 
 export { Select, Where, Clause, Sort, Limit };
