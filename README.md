@@ -33,8 +33,17 @@ const result = await prisma.$queryRaw(
   Prisma.sql`${query}`
 )
 
-
 ```
 
 ## Testing
+
 Didn't test, don't care, don't @ me
+
+## TODO 
+
+
+- [ ] Support `UPDATE`
+- [ ] Support `DELETE`
+- [ ] Support `INSERT`
+- [ ] Support Transactions (that's gonna be fun)
+
