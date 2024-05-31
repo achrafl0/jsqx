@@ -10,6 +10,11 @@ type ClauseProps = {
   clause: string;
 };
 
+type InClauseProps = {
+  column: string;
+  items: string[];
+};
+
 type SortProps = {
   column: string;
   order: "asc" | "desc";
@@ -17,6 +22,16 @@ type SortProps = {
 
 type LimitProps = {
   value: number;
+};
+
+type OrderProps = {
+  by: string;
+  asc?: boolean;
+  desc?: boolean;
+};
+
+type GroupProps = {
+  by: string;
 };
 
 function Select(
@@ -36,12 +51,33 @@ function Clause({ clause }: ClauseProps): string {
   return `${clause}`;
 }
 
+/**
+ * Builds an "IN" clause like `column in ('a', 'b', 'c')`
+ */
+function InClause({ column, items }: InClauseProps): string {
+  return `${column} in (${items.map((i) => `'${i}'`).join(",")})`;
+}
+
 function Sort({ column, order }: SortProps): string {
   return ` SORT BY ${column} ${order}`;
 }
 
 function Limit({ value }: LimitProps): string {
   return ` LIMIT ${value}`;
+}
+
+/**
+ * Builds an "ORDER" statement like `ORDER BY column asc`
+ */
+function Order({ by, asc, desc }: OrderProps): string {
+  return ` ORDER BY ${by} ${asc ? "asc" : ""}${desc ? "desc" : ""}`;
+}
+
+/**
+ * Builds a "GROUP" statement like `GROUP BY column asc`
+ */
+function Group({ by }: GroupProps): string {
+  return ` GROUP BY ${by}`;
 }
 
 export function createElement(
@@ -52,4 +88,4 @@ export function createElement(
   return type(props, children);
 }
 
-export { Select, Where, Clause, Sort, Limit };
+export { Select, Where, Clause, InClause, Sort, Limit, Group, Order };
